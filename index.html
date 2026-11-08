@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" media="(prefers-color-scheme: light)" content="#f1f4f9">
+<meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0b101c">
+<meta name="description" content="Code einfügen oder laden und als fertige .html-Datei speichern.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Code zu HTML">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+<title>Code zu HTML</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="wrap">
+  <header>
+    <h1>Code zu <span class="ext">.html</span></h1>
+    <p class="lead">Code einfügen oder aus einer Datei laden, Dateinamen wählen, als HTML-Datei speichern. HTML, JavaScript, CSS und beliebiger anderer Code werden passend verpackt.</p>
+  </header>
+
+  <noscript><p class="status bad">Diese Seite braucht JavaScript.</p></noscript>
+
+  <div class="cols">
+  <div class="col">
+    <section>
+      <div class="row-head">
+        <h2>1 · Dein Code</h2>
+        <span class="meta" id="count">0 Zeichen</span>
+      </div>
+      <div class="ed" id="ed-in">
+        <pre class="gut" aria-hidden="true">1</pre>
+        <div class="stack">
+          <pre class="hl" aria-hidden="true"></pre>
+          <textarea id="code" wrap="off" spellcheck="false" autocorrect="off" autocapitalize="off" autocomplete="off" aria-label="Dein Code" placeholder="Code hier einfügen, eine Datei laden oder hierher ziehen"></textarea>
+        </div>
+      </div>
+      <div class="actions">
+        <button type="button" class="primary" id="paste">Aus Zwischenablage einfügen</button>
+        <button type="button" id="open">Datei laden</button>
+        <button type="button" class="small" id="example">Beispiel laden</button>
+        <button type="button" class="small" id="clear">Leeren</button>
+      </div>
+      <input type="file" id="file" hidden accept="text/*,.html,.htm,.js,.mjs,.css,.json,.md,.txt,.xml,.svg,.py,.java,.c,.h,.cpp,.cs,.php,.ts,.tsx,.jsx,.sh,.bat,.sql,.yml,.yaml,.ini,.csv">
+      <p class="status" id="status-in" role="status" aria-live="polite"></p>
+    </section>
+
+    <section>
+      <h2>2 · Optionen</h2>
+      <div class="grid">
+        <div class="field">
+          <label for="fn">Dateiname</label>
+          <input type="text" id="fn" value="index.html" spellcheck="false" autocomplete="off" autocapitalize="off">
+          <p class="hint">Die Endung .html wird automatisch ergänzt.</p>
+        </div>
+        <div class="field">
+          <label for="mode">Art des Codes</label>
+          <select id="mode">
+            <option value="auto">Automatisch erkennen</option>
+            <option value="html">HTML (schon fertig)</option>
+            <option value="js">JavaScript (in &lt;script&gt; einbetten)</option>
+            <option value="css">CSS (in &lt;style&gt; einbetten)</option>
+            <option value="text">Anderer Code (als Text anzeigen)</option>
+          </select>
+          <p class="hint" id="detect">&nbsp;</p>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="col">
+    <section>
+      <div class="row-head">
+        <h2>3 · Ergebnis</h2>
+        <span class="meta" id="size">–</span>
+      </div>
+      <div class="tabs">
+        <button type="button" class="small" id="tab-code" aria-pressed="true">Code</button>
+        <button type="button" class="small" id="tab-preview" aria-pressed="false">Vorschau</button>
+      </div>
+      <div class="ed out" id="ed-out">
+        <pre class="gut" aria-hidden="true">1</pre>
+        <div class="stack">
+          <pre class="hl" aria-hidden="true"></pre>
+          <textarea id="out" wrap="off" readonly spellcheck="false" aria-label="Fertige HTML-Datei" placeholder="Hier erscheint die fertige HTML-Datei."></textarea>
+        </div>
+      </div>
+      <iframe id="preview" class="preview" title="Vorschau der HTML-Datei" sandbox="allow-scripts" hidden></iframe>
+      <div class="actions">
+        <button type="button" class="primary" id="download" disabled>Als .html herunterladen</button>
+        <button type="button" id="share" hidden disabled>Teilen oder in Dateien sichern</button>
+        <button type="button" id="copy" disabled>Kopieren</button>
+      </div>
+      <p class="status" id="status" role="status" aria-live="polite"></p>
+    </section>
+  </div>
+  </div>
+
+  <footer>
+    <p id="offline" class="ok" hidden>Offline verfügbar. Die App funktioniert auch ohne Internet.</p>
+    <p id="install" hidden>Auf dem iPad installieren: Teilen-Symbol in Safari, dann „Zum Home-Bildschirm“.</p>
+  </footer>
+</div>
+
+<script src="syntax.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

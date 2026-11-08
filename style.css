@@ -1,0 +1,247 @@
+/* Lokale Schriften (kein Netz nötig, damit die App offline läuft) */
+@font-face { font-family: "Familjen Grotesk"; font-weight: 400; font-style: normal; font-display: swap; src: url("fonts/familjen-grotesk-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Familjen Grotesk"; font-weight: 500; font-style: normal; font-display: swap; src: url("fonts/familjen-grotesk-latin-500-normal.woff2") format("woff2"); }
+@font-face { font-family: "Familjen Grotesk"; font-weight: 600; font-style: normal; font-display: swap; src: url("fonts/familjen-grotesk-latin-600-normal.woff2") format("woff2"); }
+@font-face { font-family: "Familjen Grotesk"; font-weight: 700; font-style: normal; font-display: swap; src: url("fonts/familjen-grotesk-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-weight: 400; font-style: normal; font-display: swap; src: url("fonts/jetbrains-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-weight: 500; font-style: normal; font-display: swap; src: url("fonts/jetbrains-mono-latin-500-normal.woff2") format("woff2"); }
+
+/* Layout: eine Arbeitsspalte, ab Querformat zwei Spalten (Code links, Ergebnis rechts). */
+:root {
+  color-scheme: light;
+  --bg: #f1f4f9;
+  --surface: #ffffff;
+  --ink: #141a2b;
+  --muted: #566078;
+  --line: #d3dae8;
+  --accent: #1d4ed8;
+  --accent-ink: #ffffff;
+  --code-bg: #0f1524;
+  --code-fg: #dbe4ff;
+  --code-muted: #5d6a8a;
+  --code-sel: rgba(126, 162, 255, 0.35);
+  --ok: #0f7a4d;
+  --bad: #b42318;
+
+  /* Farben der Syntax-Hervorhebung (auf dunklem Editorgrund) */
+  --t-cmt: #7585a8;
+  --t-str: #9ece8c;
+  --t-num: #f0b46a;
+  --t-kw: #c4a2f5;
+  --t-lit: #f0b46a;
+  --t-fn: #7fc4f5;
+  --t-tag: #f08a8a;
+  --t-attr: #f0c987;
+  --t-punc: #8d9bbd;
+  --t-sel: #f0c987;
+  --t-prop: #7fc4f5;
+  --t-at: #c4a2f5;
+  --t-var: #f08a8a;
+
+  --font-ui: "Familjen Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-code: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --bg: #0b101c;
+    --surface: #131a2b;
+    --ink: #e8ecf7;
+    --muted: #97a3bd;
+    --line: #27324a;
+    --accent: #7ea2ff;
+    --accent-ink: #0a1230;
+    --code-bg: #070b15;
+    --code-fg: #cfdaff;
+    --ok: #4cc38a;
+    --bad: #ff8a80;
+  }
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; font-size: 100%; }
+/* Folgt der Systemeinstellung "Textgröße" (iPad: Anzeige & Helligkeit) */
+@supports (font: -apple-system-body) { html { font: -apple-system-body; } }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-ui);
+  font-size: 1rem;
+  line-height: 1.5;
+  padding-top: calc(28px + env(safe-area-inset-top, 0px));
+  padding-bottom: calc(48px + env(safe-area-inset-bottom, 0px));
+  padding-left: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+.wrap { max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+header { display: flex; flex-direction: column; gap: 6px; }
+h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); line-height: 1.05; margin: 0; letter-spacing: -0.02em; font-weight: 700; text-wrap: balance; }
+h1 .ext { font-family: var(--font-code); font-weight: 500; color: var(--accent); font-size: 0.7em; letter-spacing: 0; }
+.lead { margin: 0; color: var(--muted); max-width: 60ch; }
+
+.cols { display: grid; grid-template-columns: 1fr; gap: 22px; }
+.col { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
+section { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 18px; display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.row-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+h2 { margin: 0; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); font-weight: 600; }
+.meta { font-family: var(--font-code); font-size: 0.78rem; color: var(--muted); font-variant-numeric: tabular-nums; }
+
+input[type="text"], select {
+  width: 100%;
+  font: inherit;
+  color: var(--ink);
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+/* ---------- Editor mit Zeilennummern und Hervorhebung ---------- */
+/* Hinter dem durchsichtigen Textfeld liegt ein gleich gesetztes <pre> mit der farbigen Fassung. */
+.ed {
+  --ed-pad: 12px;
+  --ed-font: 0.8125rem;
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  height: 340px;
+  min-height: 160px;
+  resize: vertical;
+  overflow: hidden;
+  background: var(--code-bg);
+  color: var(--code-fg);
+  border-radius: 8px;
+  font-family: var(--font-code);
+  font-size: var(--ed-font);
+  line-height: 1.55;
+  tab-size: 2;
+}
+.ed.drop { outline: 2px dashed var(--accent); outline-offset: -4px; }
+.ed .gut, .ed .hl, .ed textarea {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  font: inherit;
+  letter-spacing: 0;
+  word-spacing: 0;
+  text-indent: 0;
+  text-transform: none;
+  font-variant-ligatures: none;
+  white-space: pre;
+  tab-size: 2;
+}
+.ed .gut {
+  min-width: 3.2ch;
+  padding: var(--ed-pad) 10px calc(var(--ed-pad) + 24px) 10px;
+  text-align: right;
+  color: var(--code-muted);
+  background: rgba(255, 255, 255, 0.03);
+  border-right: 1px solid rgba(255, 255, 255, 0.07);
+  overflow: hidden;
+  user-select: none;
+  -webkit-user-select: none;
+  font-variant-numeric: tabular-nums;
+}
+.ed .stack { position: relative; min-width: 0; overflow: hidden; }
+.ed .hl, .ed textarea {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: var(--ed-pad);
+}
+.ed .hl {
+  overflow: hidden;
+  color: var(--code-fg);
+  padding-bottom: calc(var(--ed-pad) + 24px);
+  padding-right: calc(var(--ed-pad) + 24px);
+  pointer-events: none;
+}
+.ed textarea {
+  overflow: auto;
+  resize: none;
+  background: transparent;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  caret-color: var(--code-fg);
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+}
+.ed textarea::placeholder { color: var(--code-muted); -webkit-text-fill-color: var(--code-muted); }
+.ed textarea::selection { background: var(--code-sel); -webkit-text-fill-color: transparent; }
+.ed.focus { box-shadow: 0 0 0 2px var(--accent); }
+.ed.out { height: 340px; }
+
+.t-cmt { color: var(--t-cmt); font-style: italic; }
+.t-str { color: var(--t-str); }
+.t-num { color: var(--t-num); }
+.t-kw { color: var(--t-kw); }
+.t-lit { color: var(--t-lit); }
+.t-fn { color: var(--t-fn); }
+.t-tag { color: var(--t-tag); }
+.t-attr { color: var(--t-attr); }
+.t-punc { color: var(--t-punc); }
+.t-sel { color: var(--t-sel); }
+.t-prop { color: var(--t-prop); }
+.t-at { color: var(--t-at); }
+.t-var { color: var(--t-var); }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+label { font-size: 0.9rem; font-weight: 500; }
+.hint { font-size: 0.82rem; color: var(--muted); margin: 0; }
+
+.actions { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; }
+button, .btn {
+  font: inherit;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 10px 16px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+button:hover:not(:disabled) { border-color: var(--accent); }
+button.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+button.primary:hover:not(:disabled) { filter: brightness(1.08); }
+button.small { padding: 6px 12px; font-weight: 500; font-size: 0.88rem; }
+button:disabled { opacity: 0.45; cursor: not-allowed; }
+.status { font-size: 0.9rem; min-height: 1.4em; margin: 0; color: var(--muted); }
+.status.ok { color: var(--ok); }
+.status.bad { color: var(--bad); }
+
+.tabs { display: flex; gap: 6px; }
+.tabs button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
+iframe.preview { width: 100%; height: 340px; border: 1px solid var(--line); border-radius: 8px; background: #ffffff; }
+
+footer { display: flex; flex-direction: column; gap: 4px; color: var(--muted); font-size: 0.85rem; }
+footer p { margin: 0; }
+footer .ok { color: var(--ok); }
+
+@media (pointer: coarse) {
+  button, button.small { min-height: 44px; font-size: 1rem; padding: 10px 18px; }
+  input[type="text"], select { min-height: 44px; font-size: max(16px, 1rem); }
+  .ed { --ed-font: max(16px, 1rem); }
+}
+@media (min-width: 900px) {
+  .wrap { max-width: 1240px; }
+  .cols { grid-template-columns: 1fr 1fr; align-items: start; }
+  .ed, .ed.out { height: 460px; }
+  iframe.preview { height: 460px; }
+}
+/* Systemeinstellung "Kontrast erhöhen" */
+@media (prefers-contrast: more) {
+  :root { --line: #4a5470; --muted: #2f3750; --t-cmt: #a9b6d6; --code-muted: #a9b6d6; }
+  button, input[type="text"], select, section { border-width: 2px; }
+}
+@media (prefers-contrast: more) and (prefers-color-scheme: dark) {
+  :root { --line: #9aa7c4; --muted: #cdd5e8; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
