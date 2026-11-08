@@ -16,27 +16,31 @@
   --line: #d3dae8;
   --accent: #1d4ed8;
   --accent-ink: #ffffff;
-  --code-bg: #0f1524;
-  --code-fg: #dbe4ff;
-  --code-muted: #5d6a8a;
-  --code-sel: rgba(126, 162, 255, 0.35);
   --ok: #0f7a4d;
   --bad: #b42318;
 
-  /* Farben der Syntax-Hervorhebung (auf dunklem Editorgrund) */
-  --t-cmt: #7585a8;
-  --t-str: #9ece8c;
-  --t-num: #f0b46a;
-  --t-kw: #c4a2f5;
-  --t-lit: #f0b46a;
-  --t-fn: #7fc4f5;
-  --t-tag: #f08a8a;
-  --t-attr: #f0c987;
-  --t-punc: #8d9bbd;
-  --t-sel: #f0c987;
-  --t-prop: #7fc4f5;
-  --t-at: #c4a2f5;
-  --t-var: #f08a8a;
+  /* Editor, hell */
+  --code-bg: #f4f7fc;
+  --code-fg: #1b2338;
+  --code-muted: #7a86a3;
+  --code-sel: rgba(29, 78, 216, 0.2);
+  --gut-bg: rgba(20, 26, 43, 0.04);
+  --gut-line: rgba(20, 26, 43, 0.1);
+
+  /* Farben der Syntax-Hervorhebung, hell */
+  --t-cmt: #667594;
+  --t-str: #1a7f37;
+  --t-num: #a85400;
+  --t-kw: #7b3fc4;
+  --t-lit: #a85400;
+  --t-fn: #0b63c5;
+  --t-tag: #c2263a;
+  --t-attr: #8a5a00;
+  --t-punc: #5b6785;
+  --t-sel: #8a5a00;
+  --t-prop: #0b63c5;
+  --t-at: #7b3fc4;
+  --t-var: #c2263a;
 
   --font-ui: "Familjen Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-code: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -51,10 +55,29 @@
     --line: #27324a;
     --accent: #7ea2ff;
     --accent-ink: #0a1230;
-    --code-bg: #070b15;
-    --code-fg: #cfdaff;
     --ok: #4cc38a;
     --bad: #ff8a80;
+
+    --code-bg: #070b15;
+    --code-fg: #cfdaff;
+    --code-muted: #5d6a8a;
+    --code-sel: rgba(126, 162, 255, 0.35);
+    --gut-bg: rgba(255, 255, 255, 0.03);
+    --gut-line: rgba(255, 255, 255, 0.07);
+
+    --t-cmt: #7585a8;
+    --t-str: #9ece8c;
+    --t-num: #f0b46a;
+    --t-kw: #c4a2f5;
+    --t-lit: #f0b46a;
+    --t-fn: #7fc4f5;
+    --t-tag: #f08a8a;
+    --t-attr: #f0c987;
+    --t-punc: #8d9bbd;
+    --t-sel: #f0c987;
+    --t-prop: #7fc4f5;
+    --t-at: #c4a2f5;
+    --t-var: #f08a8a;
   }
 }
 
@@ -79,7 +102,6 @@ body {
 header { display: flex; flex-direction: column; gap: 6px; }
 h1 { font-size: clamp(1.9rem, 5vw, 2.6rem); line-height: 1.05; margin: 0; letter-spacing: -0.02em; font-weight: 700; text-wrap: balance; }
 h1 .ext { font-family: var(--font-code); font-weight: 500; color: var(--accent); font-size: 0.7em; letter-spacing: 0; }
-.lead { margin: 0; color: var(--muted); max-width: 60ch; }
 
 .cols { display: grid; grid-template-columns: 1fr; gap: 22px; }
 .col { display: flex; flex-direction: column; gap: 22px; min-width: 0; }
@@ -138,8 +160,8 @@ input[type="text"], select {
   padding: var(--ed-pad) 10px calc(var(--ed-pad) + 24px) 10px;
   text-align: right;
   color: var(--code-muted);
-  background: rgba(255, 255, 255, 0.03);
-  border-right: 1px solid rgba(255, 255, 255, 0.07);
+  background: var(--gut-bg);
+  border-right: 1px solid var(--gut-line);
   overflow: hidden;
   user-select: none;
   -webkit-user-select: none;
@@ -238,10 +260,16 @@ footer .ok { color: var(--ok); }
 }
 /* Systemeinstellung "Kontrast erhöhen" */
 @media (prefers-contrast: more) {
-  :root { --line: #4a5470; --muted: #2f3750; --t-cmt: #a9b6d6; --code-muted: #a9b6d6; }
+  :root { --line: #4a5470; --muted: #2f3750; --t-cmt: #3f4a66; --code-muted: #3f4a66; }
   button, input[type="text"], select, section { border-width: 2px; }
 }
 @media (prefers-contrast: more) and (prefers-color-scheme: dark) {
-  :root { --line: #9aa7c4; --muted: #cdd5e8; }
+  :root { --line: #9aa7c4; --muted: #cdd5e8; --t-cmt: #c0cae3; --code-muted: #c0cae3; }
+}
+/* Windows "Hoher Kontrast": Systemfarben statt eigener Farben, Hervorhebung aus */
+@media (forced-colors: active) {
+  .ed .hl { visibility: hidden; }
+  .ed textarea { color: CanvasText; -webkit-text-fill-color: CanvasText; }
+  .ed { border: 1px solid CanvasText; }
 }
 @media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }

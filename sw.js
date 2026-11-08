@@ -1,7 +1,7 @@
 /* Service Worker: macht die App offline nutzbar.
    Bei jeder Änderung an den Dateien die Versionsnummer unten erhöhen,
    damit installierte Geräte die neuen Dateien holen. */
-const VERSION = 'v1';
+const VERSION = 'v2';
 const CACHE = 'code-zu-html-' + VERSION;
 
 const ASSETS = [
